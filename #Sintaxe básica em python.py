@@ -1,6 +1,6 @@
 #Sintaxe básica em python 
 
-#nome_variavel =dado/valor/atriuto
+#nome_variavel = dado/valor/atributo
 
 número =20
 
@@ -989,4 +989,188 @@ class Pessoa:
 pessoa1 = Pessoa.ano_nasc('Thamyres', 1998)
 print(pessoa1.idade)
 
-#Aula 179
+#Métodos estáticos
+#Aqueles que não possuem instâncias como atributos,
+#funciona como uma função normal dentro da classe
+
+from random import randint
+class Pessoa:
+    @staticmethod
+    def gerador_id():
+        gerador = randint(100, 999)
+        return gerador
+
+print(Pessoa.gerador_id())
+
+#Atributos de Classe
+class Classe1:
+    var1 = 101001
+    
+variavel1 = Classe1()
+
+print(Classe1.var1)
+print(variavel1.var1)
+
+#Mudando um atributo de classe
+Classe1.var1 = 'Maria'
+
+print(Classe1.var1)
+
+#Encapsulamento
+class BaseDeDados:
+    def __init__(self):
+        self.dados = {}
+        #self._dados = {} #declarando como protegido (ainda acessivel de fora da classe)
+        #self.__dados = {} #declarando como privado (inacessivel e imutavel de fora da classe)
+
+base = BaseDeDados()
+print(base.dados)
+
+#Try, Except
+try:
+    print(variavel)
+except:
+    pass
+
+#Exibindo que erro especifico ocorreu
+try:
+    print(var)
+except:
+    print('A variavel não existe!!')
+    
+#Exibindo que erro aconteceu2
+try:
+    print(a)
+except NameError as erro:
+    print('Ocorreu um erro:', erro)
+    
+#Except genérico:
+try:
+    print(a)
+except Exception as erro:
+    print('Ocorreu um erro inesperado', erro)
+    
+#Modularização básica
+#arquivo soma.py
+def soma(num1, num2):
+    s = int(num1) + int(num2)
+    return s
+
+##Outro arquivo main.py
+from soma import soma
+
+print(f'O resultado da soma é: {soma(8,3)}')
+
+#Builtins
+print(dir())
+
+import builtins
+print(dir(builtins))
+
+#Importando uma biblioteca e explorando suas funcionalidades
+import random
+print(dir(random))
+
+#Definindo paramêtros padrão como False
+class Pessoa:
+    def __init__(self, nome, idade, sexo=False, altura=False):
+        self.nome = nome
+        self.idade = idade
+        self.sexo = sexo
+        self.altura = altura
+        
+pessoa1 = Pessoa('Fernando', 33)
+print(pessoa1.nome)
+
+pessoa1.sexo = 'M'
+print(pessoa1.sexo)
+
+#Classe como molde para criação de objetos
+class Pessoa:
+    def __init__(self, nome, idade, sexo, altura):
+        self.nome = nome
+        self.idade = idade
+        self.sexo = sexo
+        self.altura = altura
+        
+pessoa1 = Pessoa('Maria', 32, 'F', 1.72)
+print(pessoa1.nome)
+print(pessoa1.altura)
+
+pessoa2 = Pessoa('Jose', 26, 'M', 1.92)
+print(pessoa2.nome)
+print(pessoa2.idade)
+
+#Aplicação de orientação objeto
+class BaseDeDados:
+    def __init__(self):
+        self.base = {}
+    
+    def inserir(sel, nome, fone):
+        if 'clientes' not in self.base:
+            self.base['clientes'] = {nome:fone}
+        else:
+            self.base['clientes'].update({nome:fone})
+    
+    def listar(self):
+        for n, f in self.base['clientes'].items():
+            print(n,f)
+    
+    def apagar(self, nome):
+        del self.base['clientes'][nome]
+    
+    clientes = BaseDeDados()
+    
+    clientes.inserir('Ana', 9953655353)
+    clientes.inserir('Maria', 991536970)
+    clientes.inserir('Jose', 9981286321)
+    
+    clientes.listar()
+    
+    clientes.apagar('Ana')
+    
+    clientes.listar() 
+
+#@property, Getters e Setters
+class Produto:
+    def __init__(self, nome, preco):
+        self.nome = nome
+        self.preco = preco
+    
+    def desconto(self, percentual):
+        self.preco = self.preco - (self.preco*(percentual/100))
+    
+    #Getter
+    @property
+    def preco(self):
+        return self._preco
+    
+    #Setter
+    @preco.setter
+    def preco(self, valor):
+        if isinstance(valor, str):
+            valor = float(valor.replace('R$', ''))
+            self._preco = valor
+
+produto1 = Produto('Camiseta', 99)
+produto1.desconto(5)
+print(produto1.preco)  
+
+produto1 = Produto('Calça', 120)
+produto1.desconto(15)
+print(produto1.preco)   
+
+produto2 = Produto('Shorts', 'R$59')
+produto2.desconto(5)
+print(f'Valor de produto2 com desconto: {produto2.preco}') 
+
+#Recursividade
+def fatorial(num):
+    if num == 1:
+        return 1
+    
+    return num * fatorial(num - 1)
+
+fator = fatorial(int(input('Digite o número a descobrir o fatorial: ')))
+
+print(f'O resultado fatorial é: {fator}')
